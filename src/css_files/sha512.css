@@ -1,0 +1,57 @@
+.head_sha512
+{
+    font-size: 3.5rem;
+    color: rgb(89, 89, 255);
+    margin-left:3.2%;
+    margin-top: 30px;
+}
+.para_sha512
+{
+    max-width: 620px;
+    font-size: 1.2rem;
+    color: rgb(148, 148, 148);
+    margin-left: 3.2%;
+    margin-top: -45px;
+}
+.in_out_container_512
+{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+.input_sha512
+{
+    font-size: 1.1rem;
+    color: rgb(82, 82, 82);
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    resize:none;
+    height: 300px;
+    width: 630px;
+    margin-left: 3%;
+    border: solid 2px rgb(194, 194, 194);
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+.output_sha512
+{
+    font-size: 1.1rem;
+    color: rgb(82, 82, 82);
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    resize:none;
+    height: 300px;
+    width: 630px;
+    margin-left: 2%;
+    border: solid 2px rgb(194, 194, 194);
+    border-radius: 20px;
+}
+.input_sha512::placeholder, .output_sha512::placeholder
+{
+    color: rgb(147, 147, 147);
+}
