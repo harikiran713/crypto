@@ -1,12 +1,14 @@
 .head_sha256
 {
     font-size: 3.5rem;
-    color: rgb(89, 89, 255);
+    font-weight: 600;
+    color: #9376E0;
     margin-left:3.2%;
     margin-top: 30px;
 }
 .para_sha256
 {
+    font-family: 'Nunito', sans-serif;
     max-width: 620px;
     font-size: 1.2rem;
     color: rgb(148, 148, 148);
@@ -34,8 +36,9 @@
     width: 630px;
     margin-left: 3%;
     border: solid 2px rgb(194, 194, 194);
-    border-radius: 20px;
+    border-radius: 7px;
     margin-bottom: 40px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
 .output_sha256
 {
@@ -49,9 +52,14 @@
     width: 630px;
     margin-left: 2%;
     border: solid 2px rgb(194, 194, 194);
-    border-radius: 20px;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
 .input_sha256::placeholder, .output_sha256::placeholder
 {
     color: rgb(147, 147, 147);
+}
+.input_sha256:focus, .output_sha256:focus
+{
+    outline:none;
 }

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triple DES Online Encryption/Decryption</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/tripledes.js"></script>
+</head>
+<body>
+
+<h1>Triple DES Online Encryption/Decryption</h1>
+
+<!-- Encryption Section -->
+<h2>Triple DES Encryption</h2>
+
+<label for="encrypt-text">Enter text to be Encrypted</label>
+<textarea id="encrypt-text" rows="3" cols="50">Hello, World!</textarea>
+
+<label for="encrypt-mode">Select Mode</label>
+<select id="encrypt-mode">
+    <option value="ECB">ECB</option>
+    <!-- Add other modes as needed -->
+</select>
+
+<label for="secret-key">Enter Secret Key</label>
+<input type="text" id="secret-key" value="MySecretKey123">
+
+<label for="output-format">Output Text Format:</label>
+<select id="output-format">
+    <option value="Base64">Base64</option>
+    <option value="Hex">Hex</option>
+</select>
+
+<button onclick="encrypt()">Triple DES Encrypted Output</button>
+<textarea id="encrypt-result" rows="3" cols="50"></textarea>
+
+<hr>
+
+<!-- Decryption Section -->
+<h2>Triple DES Decryption</h2>
+
+<label for="decrypt-text">Enter text to be Decrypted</label>
+<textarea id="decrypt-text" rows="3" cols="50"></textarea>
+
+<label for="decrypt-mode">Select Mode</label>
+<select id="decrypt-mode">
+    <option value="ECB">ECB</option>
+    <!-- Add other modes as needed -->
+</select>
+
+<label for="decrypt-key">Enter Secret Key</label>
+<input type="text" id="decrypt-key" value="MySecretKey123">
+
+<label for="input-format">Input Text Format:</label>
+<select id="input-format">
+    <option value="Base64">Base64</option>
+    <option value="Hex">Hex</option>
+</select>
+
+<button onclick="decrypt()">Triple DES Decrypted Output</button>
+<textarea id="decrypt-result" rows="3" cols="50"></textarea>
+
+<script>
+  function encrypt() {
+        const plaintext = document.getElementById('encrypt-text').value;
+        const key = document.getElementById('secret-key').value;
+        const mode = document.getElementById('encrypt-mode').value;
+        const outputFormat = document.getElementById('output-format').value;
+
+        // Convert the key into a word array
+        const keyArray = CryptoJS.enc.Utf8.parse(key);
+
+        const encrypted = CryptoJS.TripleDES.encrypt(plaintext, keyArray, {
+            mode: CryptoJS.mode[mode],
+            padding: CryptoJS.pad.Pkcs7,
+            keySize: 192 / 32  // 192 bits key size for Triple DES
+        });
+
+        let encryptedResult;
+
+        if (outputFormat === 'Base64') {
+            encryptedResult = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+        } else if (outputFormat === 'Hex') {
+            encryptedResult = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+        }
+
+        document.getElementById('encrypt-result').value = encryptedResult;
+    }
+
+    function decrypt() {
+        const ciphertext = document.getElementById('decrypt-text').value;
+        const key = document.getElementById('decrypt-key').value;
+        const mode = document.getElementById('decrypt-mode').value;
+        const inputFormat = document.getElementById('input-format').value;
+
+        // Convert the key into a word array
+        const keyArray = CryptoJS.enc.Utf8.parse(key);
+
+        let decryptedResult;
+
+        if (inputFormat === 'Base64') {
+            decryptedResult = CryptoJS.TripleDES.decrypt(
+                { ciphertext: CryptoJS.enc.Base64.parse(ciphertext) },
+                keyArray,
+                {
+                    mode: CryptoJS.mode[mode],
+                    padding: CryptoJS.pad.Pkcs7,
+                    keySize: 192 / 32  // 192 bits key size for Triple DES
+                }
+            );
+        } else if (inputFormat === 'Hex') {
+            decryptedResult = CryptoJS.TripleDES.decrypt(
+                { ciphertext: CryptoJS.enc.Hex.parse(ciphertext) },
+                keyArray,
+                {
+                    mode: CryptoJS.mode[mode],
+                    padding: CryptoJS.pad.Pkcs7,
+                    keySize: 192 / 32  // 192 bits key size for Triple DES
+                }
+            );
+        }
+
+        document.getElementById('decrypt-result').value = decryptedResult.toString(CryptoJS.enc.Utf8);
+    }
+</script>
+
+</body>
+</html>
