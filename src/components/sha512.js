@@ -1,7 +1,11 @@
 import React, {useState} from"react"
 import "../css_files/sha512.css"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Home from "./home";
 function Sha512()
 {    
+    const [redirecttohome, setredirecttohome] = useState(false);
+
     const [input, setinput] = useState([])
 
     const hash_512=()=>{
@@ -16,8 +20,15 @@ function Sha512()
             document.getElementById("output_sha512_id").textContent = hashHex;
         });
     }
+    const go_back = () => {
+        setredirecttohome(true);
+        };
+        if (redirecttohome) {
+          return <Home />;
+      }
     return (
         <>
+        <div onClick={go_back} className="go_back512"><ArrowBackIcon/></div>
             <p className="head_sha512">SHA-512</p>
             <p className="para_sha512">It is considered more secure and resistant to brute-force 
             attacks than SHA-256 due to its larger output size. SHA-512 is often used in security-sensitive 

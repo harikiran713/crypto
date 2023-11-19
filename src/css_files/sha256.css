@@ -63,3 +63,11 @@
 {
     outline:none;
 }
+.go_back_256
+{
+    cursor: pointer;
+    opacity: 0.55;
+    position: absolute;
+    top:59px;
+    left: 5px;
+}

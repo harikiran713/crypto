@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import JSEncrypt from "jsencrypt";
 import "../css_files/rsa.css";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Home from "./home";
 
 function Rsa() {
+  const [redirecttohome, setredirecttohome] = useState(false);
+
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
   const [keySize, setKeySize] = useState(512); // Set a default key size
@@ -97,9 +101,16 @@ function Rsa() {
       setResult(decryptedText);
     }
   };
+  const go_back = () => {
+    setredirecttohome(true);
+    };
+    if (redirecttohome) {
+      return <Home />;
+  }
 
   return (
     <>
+    <div onClick={go_back} className="go_back_rsa"><ArrowBackIcon/></div>
       <div className="overall_back_div">
         <div className="key_gen_back">
           <h2 className="key_generate_head">Generate RSA Keys</h2>

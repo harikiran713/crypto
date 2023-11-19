@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import CryptoJS from "crypto-js";
 import "../css_files/triple_des.css"; // Make sure to import your CSS file
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Home from "./home";
 
 function Des() {
+  const [redirecttohome, setredirecttohome] = useState(false);
+  
   const [encryptText, setEncryptText] = useState("");
   // eslint-disable-next-line
   const [encryptMode, setEncryptMode] = useState("ECB");
@@ -65,9 +69,16 @@ function Des() {
 
     setDecryptResult(decryptedResult.toString(CryptoJS.enc.Utf8));
   };
+  const go_back = () => {
+    setredirecttohome(true);
+    };
+    if (redirecttohome) {
+      return <Home />;
+  }
 
   return (
     <div>
+      <div onClick={go_back} className="go_back_des"><ArrowBackIcon/></div>
       <div className="parent_des">
         <h1 className="des_head">Triple DES Encryption/Decryption</h1>
         <p className="des_head_desc">

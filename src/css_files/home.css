@@ -31,7 +31,7 @@
     cursor: pointer;
     height: 180px;
     width: 260px;
-    /* background-color: blue;   */
+    background-color: white;  
     border-radius: 5px;
     border: solid 1px rgb(190, 190, 190);
     border-top-left-radius: 6px;
@@ -51,8 +51,9 @@
 }
 .outer_container_home:hover
 {
-    transition: 0.1s linear;
-    scale: 1.03;
+    /* transition: 0.1s linear; */
+    /* scale: 1.03; */
+    border:solid 1px rgb(83, 83, 83);
 }
 .inner_container_home
 {
@@ -82,4 +83,10 @@
 {
     width: 98.9vw;
     opacity: 0.3;
+    
+}
+.complete_it
+{
+    height: 100vh;
+    overflow:hidden;
 }

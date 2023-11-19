@@ -114,3 +114,11 @@
     color: rgb(154, 154, 154);
     margin-top: -7px;
 }
+.go_back_des
+{
+    cursor: pointer;
+    opacity: 0.55;
+    position: absolute;
+    top:35px;
+    left: 171px;
+}

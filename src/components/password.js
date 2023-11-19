@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css_files/password.css";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Home from "./home";
 
 function Password() {
+  const [redirecttohome, setredirecttohome] = useState(false);
   function generatePassword() {
     const length = parseInt(document.getElementById("passwordLength").value);
     const includeUppercase = document.getElementById("uppercase").checked;
@@ -45,10 +48,16 @@ function Password() {
     // document.getElementById("generated_id").style.display = "flex";
     document.getElementById("password_output").textContent = password;
   }
+  const go_back = () => {
+    setredirecttohome(true);
+    };
+    if (redirecttohome) {
+      return <Home />;
+  }
 
   return (
     <>
-    
+    <div onClick={go_back} className="back_button"><ArrowBackIcon/></div>
       <p className="pass_head">Password Generator</p>
       <p className="pass_details">
         It helps enhance online security by generating complex passwords that
