@@ -3,13 +3,13 @@
     font-size: 3.5rem;
     font-weight: 600;
     color: #9376E0;
-    margin-left:21%;
+    margin-left:20%;
 }
 .web_name_details
 {
     font-size: 1.2rem;
     color: rgb(148, 148, 148);
-    margin-left: 21.3%;
+    margin-left: 20.1%;
     margin-top: -51px;
 }
 .container_home
@@ -82,11 +82,24 @@
 .back_img
 {
     width: 98.9vw;
-    opacity: 0.3;
+    opacity: 0.4;
     
 }
 .complete_it
 {
     height: 100vh;
     overflow:hidden;
+}
+.web_name_details
+{
+    max-width: 810px;
+    font-family: 'Nunito', sans-serif;
+}
+.inner_container_text
+{
+    /* font-family: 'Nunito', sans-serif; */
+    font-family: 'Poppins', sans-serif; 
+    color: rgb(116, 116, 116);
+    font-weight: 600;
+    font-size: 1.3rem;
 }

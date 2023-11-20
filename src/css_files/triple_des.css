@@ -81,6 +81,7 @@
 }
 .output_des
 {
+    cursor: pointer;
     font-family: 'Nunito', sans-serif;
     height: 45px;
     width: 280px;
