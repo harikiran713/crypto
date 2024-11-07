@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Home from "./home";
+import Home from "./home"; // Assuming Home component exists in the same directory
 
 function Sha256() {
   const [redirectToHome, setRedirectToHome] = useState(false);
@@ -40,15 +40,17 @@ function Sha256() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-100 p-8 flex flex-col items-center justify-center">
-   
+      
+     
       <div
         onClick={goBack}
-        className="self-start mb-6 text-gray-600 hover:text-gray-800 cursor-pointer transition duration-200 ease-in-out"
+        className="self-start mb-6 text-gray-600 hover:text-gray-800 cursor-pointer transition duration-200 ease-in-out flex items-center space-x-2"
       >
         <ArrowBackIcon fontSize="large" />
+        <span className="text-xl">Back to Home</span>
       </div>
 
-     
+      
       <h1 className="text-4xl font-semibold text-gray-800 mb-4 text-center">
         SHA-256 Hash Generator
       </h1>
@@ -58,7 +60,7 @@ function Sha256() {
       </p>
 
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-xl p-8 space-y-6">
-       
+        
         <textarea
           onChange={handleChange}
           value={input}
@@ -67,7 +69,7 @@ function Sha256() {
           rows="8"
         />
 
-        
+      
         <textarea
           value={output}
           className="w-full p-4 text-lg rounded-lg border-2 border-gray-300 bg-gray-100 focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out resize-none"
