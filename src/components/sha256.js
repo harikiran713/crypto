@@ -56,7 +56,7 @@ function Sha256() {
 
         <p className="text-lg text-gray-600 text-center max-w-2xl mb-6">
           SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that outputs a unique 256-bit value for any input.
-          It's widely used in securing data, verifying integrity, and supporting applications like blockchain technology and digital certificates.
+          It's widely used in securing data, verifying integrity, and supporting applications like blockchain technology, digital certificates.
         </p>
 
         <div className="mb-8">
