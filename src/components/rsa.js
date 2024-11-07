@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import JSEncrypt from "jsencrypt";
-import "../css_files/rsa.css";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Home from "./home";
 
 function Rsa() {
-  const [redirecttohome, setredirecttohome] = useState(false);
-
+  const [redirectToHome, setRedirectToHome] = useState(false);
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
-  const [keySize, setKeySize] = useState(512); // Set a default key size
+  const [keySize, setKeySize] = useState(2048);  // Default to 2048 bits
   const [manualPublicKey, setManualPublicKey] = useState("");
   const [plainText, setPlainText] = useState("");
   const [manualPrivateKey, setManualPrivateKey] = useState("");
@@ -18,256 +16,216 @@ function Rsa() {
 
   const generateKeys = () => {
     const encryptor = new JSEncrypt({ default_key_size: keySize });
+    const pubKey = encryptor.getPublicKey().replace(/(\r?\n|\r|-----.*-----)/g, "");
+    const privKey = encryptor.getPrivateKey().replace(/(\r?\n|\r|-----.*-----)/g, "");
 
-    const publicKey = encryptor
-      .getPublicKey()
-      .replace(/\r?\n|\r/g, "")
-      .replace("-----BEGIN PUBLIC KEY-----", "")
-      .replace("-----END PUBLIC KEY-----", "");
-
-    const privateKey = encryptor
-      .getPrivateKey()
-      .replace(/\r?\n|\r/g, "")
-      .replace("-----BEGIN RSA PRIVATE KEY-----", "")
-      .replace("-----END RSA PRIVATE KEY-----", "");
-
-    setPublicKey(publicKey);
-    setPrivateKey(privateKey);
+    setPublicKey(pubKey);
+    setPrivateKey(privKey);
   };
 
   const copyToClipboard = (text) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        alert(`${text} copied to clipboard!`);
-      })
-      .catch((error) => {
-        console.error("Copy to clipboard failed: ", error);
-      });
-  };
-
-  const copyPublicKey = () => {
-    copyToClipboard(publicKey);
-  };
-
-  const copyPrivateKey = () => {
-    copyToClipboard(privateKey);
-  };
-
-  const setManualPublicKeyHandler = (e) => {
-    setManualPublicKey(e.target.value);
-  };
-
-  const setPlainTextHandler = (e) => {
-    setPlainText(e.target.value);
-  };
-
-  const setManualPrivateKeyHandler = (e) => {
-    setManualPrivateKey(e.target.value);
-  };
-
-  const setEncryptedTextHandler = (e) => {
-    setEncryptedText(e.target.value);
-  };
-
-  const copyResult = () => {
-    copyToClipboard(result);
+    navigator.clipboard.writeText(text)
+      .then(() => alert(`${text} copied to clipboard!`))
+      .catch((error) => console.error("Failed to copy: ", error));
   };
 
   const encrypt = () => {
-    const encryptor = new JSEncrypt({ default_key_size: keySize });
+    if (!manualPublicKey || !plainText) {
+      alert("Please provide both a public key and a plaintext message.");
+      return;
+    }
+
+    const encryptor = new JSEncrypt();
     encryptor.setPublicKey(manualPublicKey);
+    const encrypted = encryptor.encrypt(plainText);
 
-    const plainText = document.getElementById("plain-text").value;
-    const encryptedText = encryptor.encrypt(plainText);
+    if (!encrypted) {
+      alert("Encryption failed. Please check the public key and plaintext.");
+      return;
+    }
 
-    setEncryptedText(encryptedText);
-    setResult(encryptedText);
+    setEncryptedText(encrypted);
+    setResult(encrypted);
   };
 
   const decrypt = () => {
-    const rsaDecryptor = new JSEncrypt();
-    rsaDecryptor.setPrivateKey(manualPrivateKey);
-
-    const encryptedText = document.getElementById("encrypted-text").value;
-    const decryptedText = rsaDecryptor.decrypt(encryptedText);
-
-    if (decryptedText === false) {
-      alert(
-        "Decryption failed. Please check your private key and encrypted text."
-      );
-    } else {
-      setEncryptedText(encryptedText);
-      setResult(decryptedText);
+    if (!manualPrivateKey || !encryptedText) {
+      alert("Please provide both a private key and an encrypted message.");
+      return;
     }
+
+    const decryptor = new JSEncrypt();
+    decryptor.setPrivateKey(manualPrivateKey);
+    const decrypted = decryptor.decrypt(encryptedText);
+
+    if (!decrypted) {
+      alert("Decryption failed. Please check the private key and encrypted message.");
+      return;
+    }
+
+    setResult(decrypted);
   };
-  const go_back = () => {
-    setredirecttohome(true);
-    };
-    if (redirecttohome) {
-      return <Home />;
+
+  const goBack = () => setRedirectToHome(true);
+
+  if (redirectToHome) {
+    return <Home />;
   }
 
   return (
-    <>
-    <div onClick={go_back} className="go_back_rsa"><ArrowBackIcon/></div>
-      <div className="overall_back_div">
-        <div className="key_gen_back">
-          <h2 className="key_generate_head">Generate RSA Keys</h2>
-          <label className="select_size" id="key_size" htmlFor="key-size">
-            Select RSA Key Size
-          </label>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-gray-100 to-blue-200 p-6 flex flex-col items-center">
+      <div onClick={goBack} className="cursor-pointer text-blue-600 text-xl flex items-center mb-8 hover:text-blue-800 transition duration-300">
+        <ArrowBackIcon />
+        <span className="ml-2">Back to Home</span>
+      </div>
+
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
+        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">RSA Key Generation</h2>
+
+        <div className="mb-6">
+          <label htmlFor="key-size" className="block text-gray-700 text-lg font-medium">Select RSA Key Size</label>
           <select
-            className="select_bar"
             id="key-size"
+            className="w-full p-4 mt-2 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setKeySize(parseInt(e.target.value))}
+            value={keySize}
           >
             <option value="512">512 bits</option>
             <option value="1024">1024 bits</option>
             <option value="2048">2048 bits</option>
-            <option value="3072">3072 bits</option>
-            <option value="4096">4096 bits</option>
           </select>
-          <button className="generate_key" onClick={generateKeys}>
-            Generate RSA Key Pair
-          </button>
+        </div>
 
-          <div className="key_gen_pub_pri">
-            <div className="inner_key_gen">
-              <div className="row_copy_gen">
-                <label className="key_head" htmlFor="public-key">
-                  Public Key
-                </label>
-                <button className="copy" onClick={copyPublicKey}>
-                  Copy
-                </button>
-              </div>
+        <button
+          className="w-full p-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:outline-none transition duration-300"
+          onClick={generateKeys}
+        >
+          Generate RSA Key Pair
+        </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+          <div>
+            <label className="block text-gray-700 font-medium">Public Key</label>
+            <div className="flex justify-between mt-2">
               <textarea
-                className="key_box box1"
-                id="public-key"
+                className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
                 readOnly
                 value={publicKey}
                 placeholder="Your public key will appear here"
-              ></textarea>
+              />
+              <button
+                className="ml-4 p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none transition duration-200"
+                onClick={() => copyToClipboard(publicKey)}
+              >
+                Copy
+              </button>
             </div>
+          </div>
 
-            <div className="inner_key_gen">
-              <div className="row_copy_gen">
-                <label className="key_head" htmlFor="private-key">
-                  Private Key
-                </label>
-                <button className="copy" onClick={copyPrivateKey}>
-                  Copy
-                </button>
-              </div>
+          <div>
+            <label className="block text-gray-700 font-medium">Private Key</label>
+            <div className="flex justify-between mt-2">
               <textarea
-                className="key_box box1"
-                id="private-key"
+                className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
                 readOnly
                 value={privateKey}
                 placeholder="Your private key will appear here"
-              ></textarea>
+              />
+              <button
+                className="ml-4 p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none transition duration-200"
+                onClick={() => copyToClipboard(privateKey)}
+              >
+                Copy
+              </button>
             </div>
           </div>
-          <p className="desc_rsa">
-            <h2 className="desc_head">Encryption</h2>
-            <br></br>
-            RSA encryption uses the recipient's public key to transform plaintext into secure ciphertext. The sender obtains the public key, breaks the message into numerical blocks, and applies modular arithmetic to generate the encrypted data.
-            <br></br>
-            <h2 className="desc_head">Decryption</h2>
-            <br></br>
-            RSA decryption, done with the recipient's private key, reverses the process. The ciphertext is decrypted using the private key, revealing the original plaintext. RSA's security rests on the challenge of factoring large primes, ensuring secure communication and data protection.
-          </p>
         </div>
 
-        <div className="temp">
-          <h1 className="encrypt_decrypt_head">
-            RSA Encryption and Decryption
-          </h1>
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Encryption and Decryption</h2>
 
-          <div className="rsa_enc_dec_back">
-            <div className="rsa_enc_dec_in">
-              <h2 className="rsa_en_de_head">RSA Encryption</h2>
-              <label className="select_size label2" htmlFor="manual-public-key">
-                Enter Public Key
-              </label>
-              <textarea
-                className="key_box size2"
-                id="manual-public-key"
-                rows="1"
-                cols="50"
-                value={manualPublicKey}
-                onChange={setManualPublicKeyHandler}
-                placeholder="Enter Public Key"
-              ></textarea>
+      
+          <div className="mb-8">
+            <h3 className="text-lg font-medium text-gray-800">RSA Encryption</h3>
+            <label htmlFor="manual-public-key" className="block text-gray-700 mt-4">Enter Public Key</label>
+            <textarea
+              className="w-full p-4 mt-2 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
+              id="manual-public-key"
+              rows="4"
+              value={manualPublicKey}
+              onChange={(e) => setManualPublicKey(e.target.value)}
+              placeholder="Enter Public Key"
+            />
 
-              <label className="select_size label2" htmlFor="plain-text">
-                Plain Text
-              </label>
-              <textarea
-                className="key_box size2"
-                id="plain-text"
-                rows="4"
-                cols="50"
-                value={plainText}
-                onChange={setPlainTextHandler}
-                placeholder="Enter Plain Text..."
-              ></textarea>
-              <button className="generate_key second" onClick={encrypt}>
-                Encrypt
-              </button>
-            </div>
+            <label htmlFor="plain-text" className="block text-gray-700 mt-4">Plain Text</label>
+            <textarea
+              className="w-full p-4 mt-2 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
+              id="plain-text"
+              rows="4"
+              value={plainText}
+              onChange={(e) => setPlainText(e.target.value)}
+              placeholder="Enter Plain Text..."
+            />
 
-            <div className="rsa_enc_dec_in">
-              <h2 className="rsa_en_de_head">RSA Decryption</h2>
-              <label
-                className="select_size label2"
-                htmlFor="manual-private-key"
-              >
-                Enter Private Key
-              </label>
-              <textarea
-                className="key_box size2"
-                id="manual-private-key"
-                rows="1"
-                cols="50"
-                value={manualPrivateKey}
-                onChange={setManualPrivateKeyHandler}
-                placeholder="Enter Private Key"
-              ></textarea>
-
-              <label className="select_size label2" htmlFor="encrypted-text">
-                RSA Encrypted Text
-              </label>
-              <textarea
-                className="key_box size2"
-                id="encrypted-text"
-                rows="4"
-                cols="50"
-                value={encryptedText}
-                onChange={setEncryptedTextHandler}
-                placeholder="Enter Encrypted Text..."
-              ></textarea>
-              <button className="generate_key second" onClick={decrypt}>
-                Decrypt
-              </button>
-            </div>
+            <button
+              className="w-full p-4 bg-blue-600 text-white rounded-xl mt-4 hover:bg-blue-700 focus:outline-none transition duration-300"
+              onClick={encrypt}
+            >
+              Encrypt
+            </button>
           </div>
-          <h2 className="label_output">Result</h2>
+
+          
+          <div className="mb-8">
+            <h3 className="text-lg font-medium text-gray-800">RSA Decryption</h3>
+            <label htmlFor="manual-private-key" className="block text-gray-700 mt-4">Enter Private Key</label>
+            <textarea
+              className="w-full p-4 mt-2 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
+              id="manual-private-key"
+              rows="4"
+              value={manualPrivateKey}
+              onChange={(e) => setManualPrivateKey(e.target.value)}
+              placeholder="Enter Private Key"
+            />
+
+            <label htmlFor="encrypted-text" className="block text-gray-700 mt-4">Encrypted Text</label>
+            <textarea
+              className="w-full p-4 mt-2 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
+              id="encrypted-text"
+              rows="4"
+              value={encryptedText}
+              onChange={(e) => setEncryptedText(e.target.value)}
+              placeholder="Enter Encrypted Text..."
+            />
+
+            <button
+              className="w-full p-4 bg-blue-600 text-white rounded-xl mt-4 hover:bg-blue-700 focus:outline-none transition duration-300"
+              onClick={decrypt}
+            >
+              Decrypt
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold mb-4">Result</h2>
           <textarea
-            className="result_output"
+            className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
             id="result"
             rows="4"
-            cols="40"
-            readOnly
             value={result}
-          ></textarea>
-          <button className="result_but" onClick={copyResult}>
+            readOnly
+            placeholder="Result will be displayed here"
+          />
+          <button
+            className="w-full p-4 bg-green-600 text-white rounded-xl mt-4 hover:bg-green-700 focus:outline-none transition duration-300"
+            onClick={() => copyToClipboard(result)}
+          >
             Copy Result
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,132 +1,86 @@
 import React, { useState } from "react";
-import "../css_files/home.css";
 import Sha256 from "./sha256";
-import Sha512 from "./sha512";
-import Password from "./password";
 import Rsa from "./rsa";
-import Des from "./triple_des";
+import Aes from "./Aes";  
 import back from "./back.jpg";
+import { CiCalendarDate } from 'react-icons/ci'; 
 
 function Home() {
-  const [redirectToSha256, setRedirectToSha256] = useState(false);
-  const [redirectToSha512, setRedirectToSha512] = useState(false);
-  const [redirectTopassword, setRedirectTopassword] = useState(false);
-  const [redirectTorsa, setredirectTorsa] = useState(false);
-  const [redirectTodes, setredirectTodes] = useState(false);
+  const [redirect, setRedirect] = useState(null);
 
-  const handleRedirectClick256 = () => {
-    setRedirectToSha256(true);
+  const renderRedirect = () => {
+    switch (redirect) {
+      case "sha256":
+        return <Sha256 />;
+      case "rsa":
+        return <Rsa />;
+      case "aes":
+        return <Aes />; 
+      default:
+        return null;
+    }
   };
-  if (redirectToSha256) {
-    return <Sha256 />;
-  }
 
-  const handleRedirectClick512 = () => {
-    setRedirectToSha512(true);
-  };
-  if (redirectToSha512) {
-    return <Sha512 />;
-  }
-
-  const handleRedirectClickpass = () => {
-    setRedirectTopassword(true);
-  };
-  if (redirectTopassword) {
-    return <Password />;
-  }
-  const handleRedirectClickrsa = () => {
-    setredirectTorsa(true);
-  };
-  if (redirectTorsa) {
-    return <Rsa />;
-  }
-  const handleRedirectClickdes = () => {
-    setredirectTodes(true);
-  };
-  if (redirectTodes) {
-    return <Des />;
+  if (redirect) {
+    return renderRedirect();
   }
 
   return (
-    <>
-      <div className="complete_it">
-        <img className="back_img" src={back} alt="" />
-        <div className="overall_parent">
-          <p className="web_name">HashEncrypt Pro</p>
-          <p className="web_name_details">
-            Dive into cryptography with HashEncrypt Pro: hands-on learning,
-            customizable password generation, and real-time visualization of
-            SHA-256, SHA-512, and RSA encryption. Master the art of secure data
-            transformation at CryptoForge Pro
+    <div className="relative min-h-screen">
+  
+      <img className="back_img absolute inset-0 w-full h-full object-cover" src={back} alt="Background" />
+      
+      <div className="container mx-auto pt-24 flex flex-col items-center justify-center relative z-10">
+        
+       
+        <div className="text-center space-y-4 mb-12 max-w-3xl">
+          <p className="web_name text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500">
+            Encryptify Hub
           </p>
+          <p className="web_name_details text-lg text-gray-600">
+            Unlock the secrets of modern encryption algorithms with Encryptify Hub. Explore RSA, AES, and SHA-256 and how they secure our digital world.
+          </p>
+        </div>
 
-          <div className="container_home">
-            <div
-              onClick={handleRedirectClickrsa}
-              className="outer_container_home"
-            >
-              <div className="inner_container_home">
-                <p className="inner_container_text">RSA</p>
+       
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+          {[{
+            title: "RSA",
+            description: "RSA is an asymmetric algorithm used for secure communication and digital signatures, forming the backbone of secure protocols like HTTPS.",
+            onClick: () => setRedirect("rsa"),
+          },
+          {
+            title: "AES",
+            description: "AES is a widely used symmetric encryption standard that secures data with key lengths of 128, 192, or 256 bits, crucial for industries like finance and healthcare.",
+            onClick: () => setRedirect("aes"),  
+          },
+          {
+            title: "SHA-256",
+            description: "SHA-256 is a cryptographic hash function that ensures data integrity by producing a unique 256-bit hash, widely used in blockchain and password storage.",
+            onClick: () => setRedirect("sha256"),
+          }].map((item, index) => (
+            <div key={index} onClick={item.onClick} className="max-w-xs p-5 rounded-lg border border-gray-300 bg-gray-200 shadow-2xl hover:shadow-xl transition-transform transform hover:scale-105 hover:border-gray-400 hover:bg-gray-100">
+              <div className="flex flex-col items-center space-y-4">
+               
+                <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500">
+                  {item.title}
+                </h2>
+                <div className="text-center">
+                  <p className="text-sm text-gray-600">{item.description}</p>
+                </div>
+                <hr className="border-gray-300 w-full" />
+                <div className="flex justify-center w-full">
+                  <button className="bg-blue-500 hover:shadow-2xl transition-transform transform hover:scale-105 hover:bg-blue-600 w-[200px] h-[43px] rounded-xl font-bold text-white">
+                    <h1 className="text-xl my-auto">Get Start</h1>
+                  </button>
+                </div>
               </div>
-              <p className="para">
-                RSA is a Public-key cryptosystem for secure data transmission
-                and digital signatures using prime numbers.
-              </p>
             </div>
-
-            <div
-              onClick={handleRedirectClickdes}
-              className="outer_container_home"
-            >
-              <div className="inner_container_home">
-                <p className="inner_container_text">Triple DES</p>
-              </div>
-              <p className="para">
-                (3DES)-- Symmetric-key encryption algorithm applying DES cipher
-                three times per data block for enhanced security.
-              </p>
-            </div>
-            <div
-              onClick={handleRedirectClickpass}
-              className="outer_container_home"
-            >
-              <div className="inner_container_home">
-                <p className="inner_container_text">Password Generator</p>
-              </div>
-              <p className="para">
-                A password generator is a software tool or application designed
-                to create strong and random passwords for users
-              </p>
-            </div>
-            <div
-              onClick={handleRedirectClick256}
-              className="outer_container_home"
-            >
-              <div className="inner_container_home">
-                <p className="inner_container_text">SHA-256</p>
-              </div>
-              <p className="para">
-                SHA-256 is a widely used cryptographic hash algorithm that
-                produces a 256-bit (32-byte) hash value from input data.
-              </p>
-            </div>
-
-            <div
-              onClick={handleRedirectClick512}
-              className="outer_container_home"
-            >
-              <div className="inner_container_home">
-                <p className="inner_container_text">SHA-512</p>
-              </div>
-              <p className="para">
-                SHA-512, a variant of the Secure Hash Algorithm, produces a
-                512-bit (64-byte) hash value from input data.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
+
 export default Home;
