@@ -39,44 +39,57 @@ function Sha256() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-100 p-8 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-gray-100 to-blue-200 p-6 flex flex-col items-center">
       
-     
+      {/* Back Button */}
       <div
         onClick={goBack}
-        className="self-start mb-6 text-gray-600 hover:text-gray-800 cursor-pointer transition duration-200 ease-in-out flex items-center space-x-2"
+        className="cursor-pointer text-blue-600 text-xl flex items-center mb-8 hover:text-blue-800 transition duration-300"
       >
-        <ArrowBackIcon fontSize="large" />
-        <span className="text-xl">Back to Home</span>
+        <ArrowBackIcon />
+        <span className="ml-2">Back to Home</span>
       </div>
 
-      
-      <h1 className="text-4xl font-semibold text-gray-800 mb-4 text-center">
-        SHA-256 Hash Generator
-      </h1>
+      {/* Main Content */}
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
+        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">SHA-256 Hash Generator</h2>
 
-      <p className="text-lg text-gray-600 text-center max-w-2xl mb-6">
-        SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that outputs a unique 256-bit value for any input. It's widely used in securing data, verifying integrity, and supporting applications like blockchain technology and digital certificates.
-      </p>
+        <p className="text-lg text-gray-600 text-center max-w-2xl mb-6">
+          SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that outputs a unique 256-bit value for any input.
+          It's widely used in securing data, verifying integrity, and supporting applications like blockchain technology and digital certificates.
+        </p>
 
-      <div className="w-full max-w-3xl bg-white rounded-lg shadow-xl p-8 space-y-6">
-        
-        <textarea
-          onChange={handleChange}
-          value={input}
-          className="w-full p-4 text-lg rounded-lg border-2 border-gray-300 bg-gray-50 focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out resize-none"
-          placeholder="Enter text to hash..."
-          rows="8"
-        />
+        <div className="mb-8">
+          {/* Input Text Area */}
+          <textarea
+            onChange={handleChange}
+            value={input}
+            className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 transition duration-300 resize-none"
+            placeholder="Enter text to hash..."
+            rows="6"
+          />
+        </div>
 
-      
-        <textarea
-          value={output}
-          className="w-full p-4 text-lg rounded-lg border-2 border-gray-300 bg-gray-100 focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out resize-none"
-          placeholder="Generated SHA-256 hash..."
-          readOnly
-          rows="8"
-        />
+        <div className="mb-8">
+          {/* Output Text Area */}
+          <textarea
+            value={output}
+            className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl bg-gray-100 focus:ring-2 focus:ring-blue-500 transition duration-300 resize-none"
+            placeholder="Generated SHA-256 hash..."
+            readOnly
+            rows="6"
+          />
+        </div>
+
+        <div>
+          {/* Copy Button for Hash */}
+          <button
+            className="w-full p-4 bg-green-600 text-white rounded-xl hover:bg-green-700 focus:outline-none transition duration-300"
+            onClick={() => navigator.clipboard.writeText(output)}
+          >
+            Copy Hash
+          </button>
+        </div>
       </div>
     </div>
   );

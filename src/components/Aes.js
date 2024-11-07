@@ -80,48 +80,52 @@ function Aes() {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
-      <div onClick={goBack} className="p-4 cursor-pointer text-xl text-blue-500 hover:text-blue-700">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-gray-100 to-blue-200 p-6 flex flex-col items-center">
+      {/* Back Button */}
+      <div
+        onClick={goBack}
+        className="cursor-pointer text-blue-600 text-xl flex items-center mb-8 hover:text-blue-800 transition duration-300"
+      >
         <ArrowBackIcon />
+        <span className="ml-2">Back to Home</span>
       </div>
-      <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-3xl font-semibold text-center mb-4">AES Encryption/Decryption</h1>
-        <p className="text-center text-gray-600 mb-6">
+
+      {/* Main Content */}
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
+        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">AES Encryption/Decryption</h2>
+        <p className="text-lg text-gray-600 text-center max-w-2xl mb-6">
           AES (Advanced Encryption Standard) is a symmetric-key block cipher widely used for encrypting sensitive data.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Encryption Section */}
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-medium mb-4">Encryption</h2>
-            <label htmlFor="encrypt-text" className="block text-gray-700 mb-2">
-              Enter text to be Encrypted
-            </label>
+            <h3 className="text-2xl font-medium text-gray-700 mb-4">Encryption</h3>
+
+            <label htmlFor="encrypt-text" className="block text-gray-700 mb-2">Enter text to be Encrypted</label>
             <textarea
-              className="w-full p-4 border border-gray-300 rounded-md mb-4"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mb-4"
               id="encrypt-text"
-              rows="3"
+              rows="4"
               value={encryptText}
               onChange={(e) => setEncryptText(e.target.value)}
               placeholder="Enter Plain Text..."
             ></textarea>
 
-            <label htmlFor="secret-key" className="block text-gray-700 mb-2">
-              Enter Secret Key (128 bits)
-            </label>
+            <label htmlFor="secret-key" className="block text-gray-700 mb-2">Enter Secret Key (128 bits)</label>
             <input
               type="text"
               id="secret-key"
-              className="w-full p-4 border border-gray-300 rounded-md mb-4"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mb-4"
               value={encryptKey}
               onChange={(e) => setEncryptKey(e.target.value)}
               placeholder="Enter Secret Key"
             />
 
-            <label htmlFor="output-format" className="block text-gray-700 mb-2">
-              Output Text Format
-            </label>
+            <label htmlFor="output-format" className="block text-gray-700 mb-2">Output Text Format</label>
             <select
               id="output-format"
-              className="w-full p-4 border border-gray-300 rounded-md mb-4"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mb-4"
               onChange={(e) => setOutputFormat(e.target.value)}
               value={outputFormat}
             >
@@ -131,53 +135,49 @@ function Aes() {
 
             <button
               onClick={encrypt}
-              className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none mb-4"
+              className="w-full p-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:outline-none transition duration-300"
             >
               Encrypt Text
             </button>
 
             <textarea
-              className="w-full p-4 border border-gray-300 rounded-md"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mt-4"
               id="encrypt-result"
-              rows="3"
+              rows="4"
               value={encryptResult}
               placeholder="Encrypted Result..."
               readOnly
             ></textarea>
           </div>
 
+          {/* Decryption Section */}
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-medium mb-4">Decryption</h2>
-            <label htmlFor="decrypt-text" className="block text-gray-700 mb-2">
-              Enter text to be Decrypted
-            </label>
+            <h3 className="text-2xl font-medium text-gray-700 mb-4">Decryption</h3>
+
+            <label htmlFor="decrypt-text" className="block text-gray-700 mb-2">Enter text to be Decrypted</label>
             <textarea
-              className="w-full p-4 border border-gray-300 rounded-md mb-4"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mb-4"
               id="decrypt-text"
-              rows="3"
+              rows="4"
               value={decryptText}
               onChange={(e) => setDecryptText(e.target.value)}
               placeholder="Enter Encrypted Text..."
             ></textarea>
 
-            <label htmlFor="decrypt-key" className="block text-gray-700 mb-2">
-              Enter Secret Key (128 bits)
-            </label>
+            <label htmlFor="decrypt-key" className="block text-gray-700 mb-2">Enter Secret Key (128 bits)</label>
             <input
               type="text"
               id="decrypt-key"
-              className="w-full p-4 border border-gray-300 rounded-md mb-4"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mb-4"
               value={decryptKey}
               onChange={(e) => setDecryptKey(e.target.value)}
               placeholder="Enter Secret Key"
             />
 
-            <label htmlFor="input-format" className="block text-gray-700 mb-2">
-              Input Text Format
-            </label>
+            <label htmlFor="input-format" className="block text-gray-700 mb-2">Input Text Format</label>
             <select
               id="input-format"
-              className="w-full p-4 border border-gray-300 rounded-md mb-4"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mb-4"
               onChange={(e) => setInputFormat(e.target.value)}
               value={inputFormat}
             >
@@ -187,15 +187,15 @@ function Aes() {
 
             <button
               onClick={decrypt}
-              className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none mb-4"
+              className="w-full p-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:outline-none transition duration-300"
             >
               Decrypt Text
             </button>
 
             <textarea
-              className="w-full p-4 border border-gray-300 rounded-md"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 mt-4"
               id="decrypt-result"
-              rows="3"
+              rows="4"
               value={decryptResult}
               placeholder="Decrypted Result..."
               readOnly
